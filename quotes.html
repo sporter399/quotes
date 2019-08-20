@@ -30,7 +30,8 @@ loginForm.addEventListener('submit', evt => {
     fetch(`https://api.quotable.io/quotes?author=${authorSearch}`)
         .then(response => response.json())
         .then(data => {
-            const randInt = Math.floor(Math.random() * Object.keys(data).length);
+            let countValue = data['count'];
+            const randInt = Math.floor(Math.random() * countValue);
             quote.innerHTML = data.results[randInt].content;
             author.innerHTML = data.results[0].author;
         })
