@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <form id='login-form'>
+        <table>
+            <tr>
+                <td>Author</td>
+                <td><input type="text" name="username" /></td>
+            </tr>
+            <tr>
+                <td>Get Random Quote</td>
+                <td><input type="submit"/></td>
+            </tr>
+        </table>
+    </form>
+    <p id="random-quote"></p>
+    <p id="author"></p>
+</body>
+</html>
+
+<script type="text/javascript">
+
+const loginForm = document.getElementById('login-form')
+
+loginForm.addEventListener('submit', evt => {
+    evt.preventDefault();
+    const authorSearch = loginForm.querySelector('input[type="text"]').value;
+    const quote = document.getElementById('random-quote');
+    const author = document.getElementById('author');
+    fetch(`https://api.quotable.io/quotes?author=${authorSearch}`)
+        .then(response => response.json())
+        .then(data => {
+            const randInt = Math.floor(Math.random() * Object.keys(data).length);
+            quote.innerHTML = data.results[randInt].content;
+            author.innerHTML = data.results[0].author;
+        })
+        .catch(error => { quote.innerHTML = "Can't fine a quote :("; } );
+    
+});
+</script>
